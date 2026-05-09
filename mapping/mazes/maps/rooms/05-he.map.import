@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://chr12evllppue"
+path="res://.godot/imported/05-he.map-3f0b53d65bcb75b0bb7e3c3677b25788.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/05-he.map"
+dest_files=["res://.godot/imported/05-he.map-3f0b53d65bcb75b0bb7e3c3677b25788.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

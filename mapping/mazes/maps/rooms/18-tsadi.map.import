@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://bfj1670f1pqi2"
+path="res://.godot/imported/18-tsadi.map-e08a6f55b57f186f2f12cb21b38e6d43.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/18-tsadi.map"
+dest_files=["res://.godot/imported/18-tsadi.map-e08a6f55b57f186f2f12cb21b38e6d43.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

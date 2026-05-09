@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://dh2y2iufpcmc4"
+path="res://.godot/imported/19-qof.map-04bdc14a2333820f33dc2cce9ea53e28.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/19-qof.map"
+dest_files=["res://.godot/imported/19-qof.map-04bdc14a2333820f33dc2cce9ea53e28.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

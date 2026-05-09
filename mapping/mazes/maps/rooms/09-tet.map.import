@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://d0wa2qrngmvnn"
+path="res://.godot/imported/09-tet.map-ef6cc7772a2be7625228fdcf18680901.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/09-tet.map"
+dest_files=["res://.godot/imported/09-tet.map-ef6cc7772a2be7625228fdcf18680901.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

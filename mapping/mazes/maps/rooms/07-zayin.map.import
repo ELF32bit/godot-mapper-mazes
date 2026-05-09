@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://dw2xqvwhnvcx6"
+path="res://.godot/imported/07-zayin.map-223fa97b2dd839cc0af0acbfaf55c0b4.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/07-zayin.map"
+dest_files=["res://.godot/imported/07-zayin.map-223fa97b2dd839cc0af0acbfaf55c0b4.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

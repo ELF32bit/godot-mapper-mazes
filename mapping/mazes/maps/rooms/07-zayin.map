@@ -1,0 +1,370 @@
+// Game: Generic
+// Format: Quake2
+// entity 0
+{
+"classname" "worldspawn"
+// brush 0
+{
+( 512 2640 0 ) ( 512 512 0 ) ( 512 512 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 512 512 0 ) ( 1008 512 0 ) ( 1008 512 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 1008 512 -256 ) ( 1008 2640 -256 ) ( 512 2640 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 512 2640 0 ) ( 1008 2640 0 ) ( 1008 512 0 ) prototype/128_brown_1 0 0 0 1 1
+( 1008 2640 -256 ) ( 1008 2640 0 ) ( 512 2640 0 ) prototype/128_brown_1 0 0 0 1 1
+( 1008 512 0 ) ( 1008 2640 0 ) ( 1008 2640 -256 ) prototype/128_brown_1 0 0 0 1 1
+}
+// brush 1
+{
+( 0 3152 0 ) ( 0 2640 0 ) ( 0 2640 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 0 2640 0 ) ( 1520 2640 0 ) ( 1520 2640 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 1520 2640 -256 ) ( 1520 3152 -256 ) ( 0 3152 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 0 3152 0 ) ( 1520 3152 0 ) ( 1520 2640 0 ) prototype/128_brown_1 0 0 0 1 1
+( 1520 3152 -256 ) ( 1520 3152 0 ) ( 0 3152 0 ) prototype/128_brown_1 0 0 0 1 1
+( 1520 2640 0 ) ( 1520 3152 0 ) ( 1520 3152 -256 ) prototype/128_brown_1 0 0 0 1 1
+}
+// brush 2
+{
+( 0 512 0 ) ( 0 0 0 ) ( 0 0 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 0 0 0 ) ( 1520 0 0 ) ( 1520 0 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 1520 0 -256 ) ( 1520 512 -256 ) ( 0 512 -256 ) prototype/128_brown_1 0 0 0 1 1
+( 0 512 0 ) ( 1520 512 0 ) ( 1520 0 0 ) prototype/128_brown_1 0 0 0 1 1
+( 1520 512 -256 ) ( 1520 512 0 ) ( 0 512 0 ) prototype/128_brown_1 0 0 0 1 1
+( 1520 0 0 ) ( 1520 512 0 ) ( 1520 512 -256 ) prototype/128_brown_1 0 0 0 1 1
+}
+}
+// entity 1
+{
+"classname" "func_connector"
+"angle" "180"
+// brush 0
+{
+( 1456 512 16 ) ( 1456 513 16 ) ( 1456 512 17 ) prototype/trigger 0 0 0 1 1
+( 1520 0 0 ) ( 1519 0 0 ) ( 1520 0 1 ) prototype/trigger 16 0 180 1 -1
+( 1520 0 0 ) ( 1520 1 0 ) ( 1519 0 0 ) prototype/trigger 0 -16 90 1 1
+( 1456 512 256 ) ( 1455 512 256 ) ( 1456 513 256 ) prototype/trigger 0 -16 90 1 1
+( 1456 512 16 ) ( 1456 512 17 ) ( 1455 512 16 ) prototype/trigger 16 0 180 1 -1
+( 1520 0 0 ) ( 1520 0 1 ) ( 1520 1 0 ) prototype/trigger 0 0 0 1 1
+}
+}
+// entity 2
+{
+"classname" "func_connector"
+"angle" "0"
+// brush 0
+{
+( 0 512 0 ) ( 0 512 1 ) ( 0 511 0 ) prototype/trigger 0 0 180 1 -1
+( 64 0 16 ) ( 64 0 17 ) ( 65 0 16 ) prototype/trigger 0 0 0 1 1
+( 0 512 0 ) ( 0 511 0 ) ( 1 512 0 ) prototype/trigger 0 0 270 1 1
+( 64 0 256 ) ( 65 0 256 ) ( 64 -1 256 ) prototype/trigger 0 0 270 1 1
+( 0 512 0 ) ( 1 512 0 ) ( 0 512 1 ) prototype/trigger 0 0 0 1 1
+( 64 0 16 ) ( 64 -1 16 ) ( 64 0 17 ) prototype/trigger 0 0 180 1 -1
+}
+}
+// entity 3
+{
+"classname" "func_connector"
+"angle" "0"
+// brush 0
+{
+( 0 3152 0 ) ( 0 3152 1 ) ( 0 3151 0 ) prototype/trigger -16 0 180 1 -1
+( 64 2640 16 ) ( 64 2640 17 ) ( 65 2640 16 ) prototype/trigger 0 0 0 1 1
+( 0 3152 0 ) ( 0 3151 0 ) ( 1 3152 0 ) prototype/trigger -16 0 270 1 1
+( 64 2640 256 ) ( 65 2640 256 ) ( 64 2639 256 ) prototype/trigger -16 0 270 1 1
+( 0 3152 0 ) ( 1 3152 0 ) ( 0 3152 1 ) prototype/trigger 0 0 0 1 1
+( 64 2640 16 ) ( 64 2639 16 ) ( 64 2640 17 ) prototype/trigger -16 0 180 1 -1
+}
+}
+// entity 4
+{
+"classname" "func_connector"
+"angle" "180"
+// brush 0
+{
+( 1456 3152 16 ) ( 1456 3153 16 ) ( 1456 3152 17 ) prototype/trigger -16 0 0 1 1
+( 1520 2640 0 ) ( 1519 2640 0 ) ( 1520 2640 1 ) prototype/trigger 16 0 180 1 -1
+( 1520 2640 0 ) ( 1520 2641 0 ) ( 1519 2640 0 ) prototype/trigger -16 -16 90 1 1
+( 1456 3152 256 ) ( 1455 3152 256 ) ( 1456 3153 256 ) prototype/trigger -16 -16 90 1 1
+( 1456 3152 16 ) ( 1456 3152 17 ) ( 1455 3152 16 ) prototype/trigger 16 0 180 1 -1
+( 1520 2640 0 ) ( 1520 2640 1 ) ( 1520 2641 0 ) prototype/trigger -16 0 0 1 1
+}
+}
+// entity 5
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "AABB"
+"_tb_id" "1"
+"_tb_layer_sort_index" "2"
+"_tb_layer_hidden" "1"
+// brush 0
+{
+( 0 512 256 ) ( 0 0 256 ) ( 0 0 0 ) prototype/skip 0 0 0 1 1
+( 0 0 256 ) ( 1520 0 256 ) ( 1520 0 0 ) prototype/skip 0 0 0 1 1
+( 1520 0 0 ) ( 1520 512 0 ) ( 0 512 0 ) prototype/skip 0 0 0 1 1
+( 0 512 256 ) ( 1520 512 256 ) ( 1520 0 256 ) prototype/skip 0 0 0 1 1
+( 1520 512 0 ) ( 1520 512 256 ) ( 0 512 256 ) prototype/skip 0 0 0 1 1
+( 1520 0 256 ) ( 1520 512 256 ) ( 1520 512 0 ) prototype/skip 0 0 0 1 1
+}
+// brush 1
+{
+( 512 2640 256 ) ( 512 512 256 ) ( 512 512 0 ) prototype/skip 0 0 0 1 1
+( 512 512 256 ) ( 1008 512 256 ) ( 1008 512 0 ) prototype/skip 0 0 0 1 1
+( 1008 512 0 ) ( 1008 2640 0 ) ( 512 2640 0 ) prototype/skip 0 0 0 1 1
+( 512 2640 256 ) ( 1008 2640 256 ) ( 1008 512 256 ) prototype/skip 0 0 0 1 1
+( 1008 2640 0 ) ( 1008 2640 256 ) ( 512 2640 256 ) prototype/skip 0 0 0 1 1
+( 1008 512 256 ) ( 1008 2640 256 ) ( 1008 2640 0 ) prototype/skip 0 0 0 1 1
+}
+// brush 2
+{
+( 0 3152 256 ) ( 0 2640 256 ) ( 0 2640 0 ) prototype/skip 0 0 0 1 1
+( 0 2640 256 ) ( 1520 2640 256 ) ( 1520 2640 0 ) prototype/skip 0 0 0 1 1
+( 1520 2640 0 ) ( 1520 3152 0 ) ( 0 3152 0 ) prototype/skip 0 0 0 1 1
+( 0 3152 256 ) ( 1520 3152 256 ) ( 1520 2640 256 ) prototype/skip 0 0 0 1 1
+( 1520 3152 0 ) ( 1520 3152 256 ) ( 0 3152 256 ) prototype/skip 0 0 0 1 1
+( 1520 2640 256 ) ( 1520 3152 256 ) ( 1520 3152 0 ) prototype/skip 0 0 0 1 1
+}
+// brush 3
+{
+( 0 512 512 ) ( 0 0 512 ) ( 0 0 256 ) prototype/skip 0 0 0 1 1
+( 0 0 512 ) ( 1520 0 512 ) ( 1520 0 256 ) prototype/skip 0 0 0 1 1
+( 1520 0 256 ) ( 1520 512 256 ) ( 0 512 256 ) prototype/skip 0 0 0 1 1
+( 0 512 512 ) ( 1520 512 512 ) ( 1520 0 512 ) prototype/skip 0 0 0 1 1
+( 1520 512 256 ) ( 1520 512 512 ) ( 0 512 512 ) prototype/skip 0 0 0 1 1
+( 1520 0 512 ) ( 1520 512 512 ) ( 1520 512 256 ) prototype/skip 0 0 0 1 1
+}
+// brush 4
+{
+( 512 2640 512 ) ( 512 512 512 ) ( 512 512 256 ) prototype/skip 0 0 0 1 1
+( 512 512 512 ) ( 1008 512 512 ) ( 1008 512 256 ) prototype/skip 0 0 0 1 1
+( 1008 512 256 ) ( 1008 2640 256 ) ( 512 2640 256 ) prototype/skip 0 0 0 1 1
+( 512 2640 512 ) ( 1008 2640 512 ) ( 1008 512 512 ) prototype/skip 0 0 0 1 1
+( 1008 2640 256 ) ( 1008 2640 512 ) ( 512 2640 512 ) prototype/skip 0 0 0 1 1
+( 1008 512 512 ) ( 1008 2640 512 ) ( 1008 2640 256 ) prototype/skip 0 0 0 1 1
+}
+// brush 5
+{
+( 0 3152 512 ) ( 0 2640 512 ) ( 0 2640 256 ) prototype/skip 0 0 0 1 1
+( 0 2640 512 ) ( 1520 2640 512 ) ( 1520 2640 256 ) prototype/skip 0 0 0 1 1
+( 1520 2640 256 ) ( 1520 3152 256 ) ( 0 3152 256 ) prototype/skip 0 0 0 1 1
+( 0 3152 512 ) ( 1520 3152 512 ) ( 1520 2640 512 ) prototype/skip 0 0 0 1 1
+( 1520 3152 256 ) ( 1520 3152 512 ) ( 0 3152 512 ) prototype/skip 0 0 0 1 1
+( 1520 2640 512 ) ( 1520 3152 512 ) ( 1520 3152 256 ) prototype/skip 0 0 0 1 1
+}
+}
+// entity 6
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "ITEMS"
+"_tb_id" "2"
+"_tb_layer_sort_index" "0"
+}
+// entity 7
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 304 2656 0 ) ( 304 2657 0 ) ( 304 2656 1 ) prototype/hint 0 0 0 1 1
+( 304 2656 0 ) ( 304 2656 1 ) ( 305 2656 0 ) prototype/hint 0 0 0 1 1
+( 304 2656 0 ) ( 305 2656 0 ) ( 304 2657 0 ) prototype/hint 0 0 0 1 1
+( 528 2880 144 ) ( 528 2881 144 ) ( 529 2880 144 ) prototype/hint 0 0 0 1 1
+( 528 2880 32 ) ( 529 2880 32 ) ( 528 2880 33 ) prototype/hint 0 0 0 1 1
+( 528 2880 32 ) ( 528 2880 33 ) ( 528 2881 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 8
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 528 2384 0 ) ( 528 2385 0 ) ( 528 2384 1 ) prototype/hint 0 0 0 1 1
+( 528 2384 0 ) ( 528 2384 1 ) ( 529 2384 0 ) prototype/hint 0 0 0 1 1
+( 528 2384 0 ) ( 529 2384 0 ) ( 528 2385 0 ) prototype/hint 0 0 0 1 1
+( 752 2608 144 ) ( 752 2609 144 ) ( 753 2608 144 ) prototype/hint 0 0 0 1 1
+( 752 2608 32 ) ( 753 2608 32 ) ( 752 2608 33 ) prototype/hint 0 0 0 1 1
+( 752 2608 32 ) ( 752 2608 33 ) ( 752 2609 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 9
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 880 2912 0 ) ( 880 2913 0 ) ( 880 2912 1 ) prototype/hint 0 0 0 1 1
+( 880 2912 0 ) ( 880 2912 1 ) ( 881 2912 0 ) prototype/hint 0 0 0 1 1
+( 880 2912 0 ) ( 881 2912 0 ) ( 880 2913 0 ) prototype/hint 0 0 0 1 1
+( 1104 3136 144 ) ( 1104 3137 144 ) ( 1105 3136 144 ) prototype/hint 0 0 0 1 1
+( 1104 3136 32 ) ( 1105 3136 32 ) ( 1104 3136 33 ) prototype/hint 0 0 0 1 1
+( 1104 3136 32 ) ( 1104 3136 33 ) ( 1104 3137 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 10
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 768 1824 0 ) ( 768 1825 0 ) ( 768 1824 1 ) prototype/hint 0 0 0 1 1
+( 768 1824 0 ) ( 768 1824 1 ) ( 769 1824 0 ) prototype/hint 0 0 0 1 1
+( 768 1824 0 ) ( 769 1824 0 ) ( 768 1825 0 ) prototype/hint 0 0 0 1 1
+( 992 2048 144 ) ( 992 2049 144 ) ( 993 2048 144 ) prototype/hint 0 0 0 1 1
+( 992 2048 32 ) ( 993 2048 32 ) ( 992 2048 33 ) prototype/hint 0 0 0 1 1
+( 992 2048 32 ) ( 992 2048 33 ) ( 992 2049 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 11
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 528 1120 0 ) ( 528 1121 0 ) ( 528 1120 1 ) prototype/hint 0 0 0 1 1
+( 528 1120 0 ) ( 528 1120 1 ) ( 529 1120 0 ) prototype/hint 0 0 0 1 1
+( 528 1120 0 ) ( 529 1120 0 ) ( 528 1121 0 ) prototype/hint 0 0 0 1 1
+( 752 1344 144 ) ( 752 1345 144 ) ( 753 1344 144 ) prototype/hint 0 0 0 1 1
+( 752 1344 32 ) ( 753 1344 32 ) ( 752 1344 33 ) prototype/hint 0 0 0 1 1
+( 752 1344 32 ) ( 752 1344 33 ) ( 752 1345 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 12
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 768 528 0 ) ( 768 529 0 ) ( 768 528 1 ) prototype/hint 0 0 0 1 1
+( 768 528 0 ) ( 768 528 1 ) ( 769 528 0 ) prototype/hint 0 0 0 1 1
+( 768 528 0 ) ( 769 528 0 ) ( 768 529 0 ) prototype/hint 0 0 0 1 1
+( 992 752 144 ) ( 992 753 144 ) ( 993 752 144 ) prototype/hint 0 0 0 1 1
+( 992 752 32 ) ( 993 752 32 ) ( 992 752 33 ) prototype/hint 0 0 0 1 1
+( 992 752 32 ) ( 992 752 33 ) ( 992 753 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 13
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 400 272 0 ) ( 400 273 0 ) ( 400 272 1 ) prototype/hint 0 0 0 1 1
+( 400 272 0 ) ( 400 272 1 ) ( 401 272 0 ) prototype/hint 0 0 0 1 1
+( 400 272 0 ) ( 401 272 0 ) ( 400 273 0 ) prototype/hint 0 0 0 1 1
+( 624 496 144 ) ( 624 497 144 ) ( 625 496 144 ) prototype/hint 0 0 0 1 1
+( 624 496 32 ) ( 625 496 32 ) ( 624 496 33 ) prototype/hint 0 0 0 1 1
+( 624 496 32 ) ( 624 496 33 ) ( 624 497 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 14
+{
+"classname" "item_prop"
+"_tb_layer" "2"
+// brush 0
+{
+( 912 16 0 ) ( 912 17 0 ) ( 912 16 1 ) prototype/hint 0 0 0 1 1
+( 912 16 0 ) ( 912 16 1 ) ( 913 16 0 ) prototype/hint 0 0 0 1 1
+( 912 16 0 ) ( 913 16 0 ) ( 912 17 0 ) prototype/hint 0 0 0 1 1
+( 1136 240 144 ) ( 1136 241 144 ) ( 1137 240 144 ) prototype/hint 0 0 0 1 1
+( 1136 240 32 ) ( 1137 240 32 ) ( 1136 240 33 ) prototype/hint 0 0 0 1 1
+( 1136 240 32 ) ( 1136 240 33 ) ( 1136 241 32 ) prototype/hint 0 0 0 1 1
+}
+}
+// entity 15
+{
+"classname" "item_chest"
+"origin" "584 1672 8"
+"angle" "0"
+"_tb_layer" "2"
+}
+// entity 16
+{
+"classname" "item_chest"
+"origin" "936 2232 8"
+"angle" "180"
+"_tb_layer" "2"
+}
+// entity 17
+{
+"classname" "item_chest"
+"origin" "936 952 8"
+"angle" "180"
+"_tb_layer" "2"
+}
+// entity 18
+{
+"classname" "func_group"
+"_tb_type" "_tb_layer"
+"_tb_name" "WALLS"
+"_tb_id" "3"
+"_tb_layer_sort_index" "1"
+"_tb_layer_hidden" "1"
+}
+// entity 19
+{
+"classname" "func_detail"
+"_tb_layer" "3"
+// brush 0
+{
+( 0 512 256 ) ( 0 0 256 ) ( 0 0 0 ) prototype/skip 0 0 0 2 2
+( 0 0 256 ) ( 1520 0 256 ) ( 1520 0 0 ) prototype/text_Z 0 0 0 2 2
+( 1520 0 0 ) ( 1520 512 0 ) ( 0 512 0 ) prototype/skip 0 0 0 2 2
+( 0 512 256 ) ( 1520 512 256 ) ( 1520 0 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 512 0 ) ( 1520 512 256 ) ( 0 512 256 ) prototype/text_Z 0 0 0 2 2
+( 512 496 128 ) ( 512 400 128 ) ( 512 400 256 ) prototype/skip 0 0 0 2 2
+}
+// brush 1
+{
+( 0 3152 256 ) ( 0 2640 256 ) ( 0 2640 0 ) prototype/skip 0 0 0 2 2
+( 0 2640 256 ) ( 1520 2640 256 ) ( 1520 2640 0 ) prototype/text_Z 0 0 0 2 2
+( 1520 2640 0 ) ( 1520 3152 0 ) ( 0 3152 0 ) prototype/skip 0 0 0 2 2
+( 0 3152 256 ) ( 1520 3152 256 ) ( 1520 2640 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 3152 0 ) ( 1520 3152 256 ) ( 0 3152 256 ) prototype/text_Z 0 0 0 2 2
+( 512 496 128 ) ( 512 400 128 ) ( 512 400 256 ) prototype/skip 0 0 0 2 2
+}
+// brush 2
+{
+( 512 496 128 ) ( 512 400 256 ) ( 512 400 128 ) prototype/skip 0 0 0 2 2
+( 0 0 256 ) ( 1520 0 256 ) ( 1520 0 0 ) prototype/text_Z 0 0 0 2 2
+( 1520 0 0 ) ( 1520 512 0 ) ( 0 512 0 ) prototype/skip 0 0 0 2 2
+( 0 512 256 ) ( 1520 512 256 ) ( 1520 0 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 512 0 ) ( 1520 512 256 ) ( 0 512 256 ) prototype/skip 0 0 0 2 2
+( 1008 464 128 ) ( 1008 384 128 ) ( 1008 384 256 ) prototype/skip 0 0 0 2 2
+}
+// brush 3
+{
+( 512 2640 256 ) ( 512 512 256 ) ( 512 512 0 ) prototype/text_Z 0 0 0 2 2
+( 512 512 256 ) ( 1008 512 256 ) ( 1008 512 0 ) prototype/skip 0 0 0 2 2
+( 1008 512 0 ) ( 1008 2640 0 ) ( 512 2640 0 ) prototype/skip 0 0 0 2 2
+( 512 2640 256 ) ( 1008 2640 256 ) ( 1008 512 256 ) prototype/text_Z 0 0 0 2 2
+( 1008 2640 0 ) ( 1008 2640 256 ) ( 512 2640 256 ) prototype/skip 0 0 0 2 2
+( 1008 512 256 ) ( 1008 2640 256 ) ( 1008 2640 0 ) prototype/text_Z 0 0 0 2 2
+}
+// brush 4
+{
+( 512 496 128 ) ( 512 400 256 ) ( 512 400 128 ) prototype/skip 0 0 0 2 2
+( 0 2640 256 ) ( 1520 2640 256 ) ( 1520 2640 0 ) prototype/skip 0 0 0 2 2
+( 1520 2640 0 ) ( 1520 3152 0 ) ( 0 3152 0 ) prototype/skip 0 0 0 2 2
+( 0 3152 256 ) ( 1520 3152 256 ) ( 1520 2640 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 3152 0 ) ( 1520 3152 256 ) ( 0 3152 256 ) prototype/text_Z 0 0 0 2 2
+( 1008 464 128 ) ( 1008 384 128 ) ( 1008 384 256 ) prototype/skip 0 0 0 2 2
+}
+// brush 5
+{
+( 1008 464 128 ) ( 1008 384 256 ) ( 1008 384 128 ) prototype/skip 0 0 0 2 2
+( 0 0 256 ) ( 1520 0 256 ) ( 1520 0 0 ) prototype/text_Z 0 0 0 2 2
+( 1520 0 0 ) ( 1520 512 0 ) ( 0 512 0 ) prototype/skip 0 0 0 2 2
+( 0 512 256 ) ( 1520 512 256 ) ( 1520 0 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 512 0 ) ( 1520 512 256 ) ( 0 512 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 0 256 ) ( 1520 512 256 ) ( 1520 512 0 ) prototype/skip 0 0 0 2 2
+}
+// brush 6
+{
+( 1008 464 128 ) ( 1008 384 256 ) ( 1008 384 128 ) prototype/skip 0 0 0 2 2
+( 0 2640 256 ) ( 1520 2640 256 ) ( 1520 2640 0 ) prototype/text_Z 0 0 0 2 2
+( 1520 2640 0 ) ( 1520 3152 0 ) ( 0 3152 0 ) prototype/skip 0 0 0 2 2
+( 0 3152 256 ) ( 1520 3152 256 ) ( 1520 2640 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 3152 0 ) ( 1520 3152 256 ) ( 0 3152 256 ) prototype/text_Z 0 0 0 2 2
+( 1520 2640 256 ) ( 1520 3152 256 ) ( 1520 3152 0 ) prototype/skip 0 0 0 2 2
+}
+}

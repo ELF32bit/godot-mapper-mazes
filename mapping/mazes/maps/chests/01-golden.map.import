@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://bkl6in4frwvw"
+path="res://.godot/imported/01-golden.map-086cfd192518e6a2ace4795e2027d18e.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/chests/01-golden.map"
+dest_files=["res://.godot/imported/01-golden.map-086cfd192518e6a2ace4795e2027d18e.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

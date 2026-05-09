@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://b1umch6wgfydj"
+path="res://.godot/imported/08-chet.map-2e32d3a7f37f595bb301de9ee32b8a82.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/08-chet.map"
+dest_files=["res://.godot/imported/08-chet.map-2e32d3a7f37f595bb301de9ee32b8a82.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

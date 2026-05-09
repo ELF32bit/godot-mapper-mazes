@@ -1,0 +1,18 @@
+// Game: Generic
+// Format: Quake2
+// entity 0
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -64 64 64 ) ( -64 0 192 ) ( -64 -64 128 ) prototype/64_grey_3 0 0 0 1 1
+( -64 0 192 ) ( 0 -64 192 ) ( -64 -64 128 ) prototype/64_grey_3 0 0 0 1 1
+( -64 64 64 ) ( 0 64 128 ) ( -64 0 192 ) prototype/64_grey_3 0 0 0 1 1
+( 0 -64 192 ) ( 64 -64 192 ) ( 64 -64 0 ) prototype/64_grey_3 0 0 0 1 1
+( 64 -64 0 ) ( 64 64 0 ) ( -64 64 0 ) prototype/64_grey_3 0 0 0 1 1
+( -64 0 192 ) ( 64 0 192 ) ( 64 -64 192 ) prototype/64_grey_3 0 0 0 1 1
+( 0 64 128 ) ( 64 64 128 ) ( 64 0 192 ) prototype/64_grey_3 0 0 0 1 1
+( 64 64 0 ) ( 64 64 128 ) ( 0 64 128 ) prototype/64_grey_3 0 0 0 1 1
+( 64 0 192 ) ( 64 64 128 ) ( 64 64 0 ) prototype/64_grey_3 0 0 0 1 1
+}
+}

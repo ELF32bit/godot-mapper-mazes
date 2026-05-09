@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://cwhhjjhxmhakp"
+path="res://.godot/imported/09-rock-big.map-baf11d1c86c6d54bae05e4b9b2160ad4.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/props/09-rock-big.map"
+dest_files=["res://.godot/imported/09-rock-big.map-baf11d1c86c6d54bae05e4b9b2160ad4.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

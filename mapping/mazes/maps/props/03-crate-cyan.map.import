@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://j5fd0ggm03fy"
+path="res://.godot/imported/03-crate-cyan.map-09cf53690091077cb3776650ccde5826.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/props/03-crate-cyan.map"
+dest_files=["res://.godot/imported/03-crate-cyan.map-09cf53690091077cb3776650ccde5826.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

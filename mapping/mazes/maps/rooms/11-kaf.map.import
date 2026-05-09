@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://bqa24tyh3uwqt"
+path="res://.godot/imported/11-kaf.map-f7a2a1eace5b12e2173fddd73601312e.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/11-kaf.map"
+dest_files=["res://.godot/imported/11-kaf.map-f7a2a1eace5b12e2173fddd73601312e.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

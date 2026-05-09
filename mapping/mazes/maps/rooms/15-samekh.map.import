@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://c76tn4gwv4p3v"
+path="res://.godot/imported/15-samekh.map-42918b7a60414de273ea1ae6600bc135.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/15-samekh.map"
+dest_files=["res://.godot/imported/15-samekh.map-42918b7a60414de273ea1ae6600bc135.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

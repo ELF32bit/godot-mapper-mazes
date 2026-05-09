@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://uvyw0c667sy"
+path="res://.godot/imported/04-dalet.map-fde98c3de37420fe9681ebcdf6801e1e.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/04-dalet.map"
+dest_files=["res://.godot/imported/04-dalet.map-fde98c3de37420fe9681ebcdf6801e1e.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://dhfycbrxwm4mc"
+path="res://.godot/imported/14-nun.map-b5be63097ef9f5dd97724dcb36ea1317.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/14-nun.map"
+dest_files=["res://.godot/imported/14-nun.map-b5be63097ef9f5dd97724dcb36ea1317.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

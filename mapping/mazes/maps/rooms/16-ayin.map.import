@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://ck7665v1nwvru"
+path="res://.godot/imported/16-ayin.map-bb29b0e58957850aa7f159fd35d76bac.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/16-ayin.map"
+dest_files=["res://.godot/imported/16-ayin.map-bb29b0e58957850aa7f159fd35d76bac.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

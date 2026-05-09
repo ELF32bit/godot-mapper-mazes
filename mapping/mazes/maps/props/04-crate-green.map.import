@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://b1wnw8f3qustm"
+path="res://.godot/imported/04-crate-green.map-abd15931e0a62e8cedcd020084a40e7f.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/props/04-crate-green.map"
+dest_files=["res://.godot/imported/04-crate-green.map-abd15931e0a62e8cedcd020084a40e7f.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

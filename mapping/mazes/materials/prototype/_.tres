@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dnptfawmfwt5o"]
+
+[ext_resource type="Shader" path="res://mapping/mazes/shaders/wireframe.gdshader" id="1_vbmud"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_vbmud")
+shader_parameter/wireframe_width_min = 20.0
+shader_parameter/wireframe_width_max = 40.0
+shader_parameter/wireframe_scale = 400.0
+shader_parameter/wireframe_pow = 2.71

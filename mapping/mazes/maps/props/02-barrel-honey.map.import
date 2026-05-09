@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://b1bdstca2v5rf"
+path="res://.godot/imported/02-barrel-honey.map-6e83c280b3cadfaf0b3c2bc76a3d3f16.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/props/02-barrel-honey.map"
+dest_files=["res://.godot/imported/02-barrel-honey.map-6e83c280b3cadfaf0b3c2bc76a3d3f16.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

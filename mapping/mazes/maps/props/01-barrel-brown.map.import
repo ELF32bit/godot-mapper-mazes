@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://tm87blbljv1v"
+path="res://.godot/imported/01-barrel-brown.map-f343ea39e50e392dd6b0cbbcaf129ba7.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/props/01-barrel-brown.map"
+dest_files=["res://.godot/imported/01-barrel-brown.map-f343ea39e50e392dd6b0cbbcaf129ba7.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

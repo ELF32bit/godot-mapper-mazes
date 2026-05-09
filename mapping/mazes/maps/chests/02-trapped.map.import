@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://djmlipvy4acs5"
+path="res://.godot/imported/02-trapped.map-043c55037e31151efcdeb910b1a9f760.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/chests/02-trapped.map"
+dest_files=["res://.godot/imported/02-trapped.map-043c55037e31151efcdeb910b1a9f760.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

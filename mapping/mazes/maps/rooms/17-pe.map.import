@@ -1,0 +1,20 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://bskbe6lnhx4ru"
+path="res://.godot/imported/17-pe.map-f35d3aa48949a567f0228473260eeb60.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/rooms/17-pe.map"
+dest_files=["res://.godot/imported/17-pe.map-f35d3aa48949a567f0228473260eeb60.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"print_progress": false
+}

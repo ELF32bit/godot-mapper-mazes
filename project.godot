@@ -1,0 +1,28 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Mapper Plugin Mazes"
+run/main_scene="res://mapping/mazes/maps/generate.map"
+config/features=PackedStringArray("4.3", "Mobile")
+
+[editor]
+
+naming/node_name_num_separator=3
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/mapper/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="mobile"
+occlusion_culling/use_occlusion_culling=true

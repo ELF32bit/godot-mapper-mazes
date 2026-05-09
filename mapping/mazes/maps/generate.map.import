@@ -1,0 +1,23 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://clwjwxpehiae4"
+path="res://.godot/imported/generate.map-97532cb9e5bf68ee47a848fdb4a59dcd.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/generate.map"
+dest_files=["res://.godot/imported/generate.map-97532cb9e5bf68ee47a848fdb4a59dcd.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"items_seed": 0,
+"lightmap_unwrap": false,
+"maze_max_depth": 8,
+"maze_seed": 4,
+"maze_unpack": false
+}

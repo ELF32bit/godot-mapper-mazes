@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://2aatkobiwxw3"
+path="res://.godot/imported/03-bloody.map-38165f327cc7ad2f5bf18504d1016ab3.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/chests/03-bloody.map"
+dest_files=["res://.godot/imported/03-bloody.map-38165f327cc7ad2f5bf18504d1016ab3.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}

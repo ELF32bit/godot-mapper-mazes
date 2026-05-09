@@ -1,0 +1,19 @@
+[remap]
+
+importer="mapper.map.scene"
+type="PackedScene"
+uid="uid://caplukkjx5pha"
+path="res://.godot/imported/05-lantern-blue.map-324ae61bff575e95c9581f02bea6d40d.scn"
+
+[deps]
+
+source_file="res://mapping/mazes/maps/props/05-lantern-blue.map"
+dest_files=["res://.godot/imported/05-lantern-blue.map-324ae61bff575e95c9581f02bea6d40d.scn"]
+
+[params]
+
+game=2
+wads=[]
+options={
+"print_progress": false
+}
