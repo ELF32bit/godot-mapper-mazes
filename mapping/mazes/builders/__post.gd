@@ -3,10 +3,10 @@ const CONFIGURATION := preload("func_connector+.gd")
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap) -> void:
 	if "/generate" in map.source_file:
-		return _generate(map)
+		var _merged_connectors := _generate_maze(map)
 
 
-static func _generate(map: MapperMap) -> void:
+static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	var parameters: Dictionary = {}
 	parameters["maze_seed"] = map.settings.options.get("maze_seed", 0)
 	parameters["maze_max_depth"] = map.settings.options.get("maze_max_depth", 8)
@@ -37,6 +37,7 @@ static func _generate(map: MapperMap) -> void:
 	# preloading all maps and reading information
 	var aabbs: Dictionary = {}
 	var connectors: Dictionary = {}
+	var merged_connectors: Array[Dictionary] = []
 	for scene in start_rooms.values() + all_next_rooms.values():
 		var scene_connectors := _find_map_connectors(scene, map.settings.unit_size)
 		aabbs[scene] = scene_connectors.get("_aabbs", [])
@@ -48,6 +49,7 @@ static func _generate(map: MapperMap) -> void:
 	_connect_maps_recursively({
 		"aabbs": [],
 		"root_node": map.node,
+		"merged_connectors": merged_connectors,
 		"map": _pick_random(start_rooms.values(), rng),
 		"map_transform": Transform3D.IDENTITY,
 		"map_connector": null,
@@ -58,17 +60,11 @@ static func _generate(map: MapperMap) -> void:
 		"rng": rng,
 	}, parameters)
 
-	# cleaning leftover metadata
+	# cleaning leftover connectors after unpacking
 	if parameters["maze_unpack"]:
-		_clean_metadata(map)
-
-
-static func _clean_metadata(map: MapperMap) -> void:
-	for node in map.node.find_children("func_connector", "Node3D", true, false):
-		if node.has_meta("MAPPER_AABBS"): node.remove_meta("MAPPER_AABBS")
-		for child in node.get_children():
-			if child.has_meta("MAPPER_AABB"): node.remove_meta("MAPPER_AABB")
-			if child.has_meta("MAPPER_NEXT"): node.remove_meta("MAPPER_NEXT")
+		for node in map.node.find_children("func_connector", "Node3D", true, false):
+			if node.has_meta("MAPPER_AABBS"): node.free()
+	return merged_connectors
 
 
 static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictionary:
@@ -101,6 +97,7 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 		var aabb_offset := aabb.size[forward_axis] * 0.5
 		connectors.get_or_add(aabb_id, []).append({
 			"center": aabb.get_center() + child.basis.z * aabb_offset,
+			"aabb": aabb.expand(aabb.get_center() + child.basis.z * aabb_offset * 3.0),
 			"basis": child.basis,
 			"next": next,
 		})
@@ -169,7 +166,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		else: # creating equal priority table for all the next maps
 			for next_map_path in data["maps"]:
 				next_maps[next_map_path] = 1.0
-			next_maps["/"] = 1.0
+			next_maps["/"] = 1.0 # nothing
 
 		# trying to add next maps to the current connector
 		next_maps = next_maps.duplicate()
@@ -200,7 +197,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				t2.basis = t2.basis.looking_at(+t2.basis.z, t2.basis.y)
 				var transform: Transform3D = data["map_transform"] * t1 * t2.affine_inverse()
 
-				# intersecting maze and next map AABBs
+				# intersecting the maze and next map AABBs
 				var is_fitting := true
 				for next_map_aabb in data["maps_aabbs"][next_map]:
 					var next_aabb: AABB = transform * next_map_aabb
@@ -210,7 +207,16 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 							break
 					if not is_fitting: break
 				if not is_fitting: continue
+
+				# adding the current connector to merged connectors
 				has_connected = true
+				data["merged_connectors"].append({
+					"depth": data["depth"],
+					"aabb": data["map_transform"] * connector["aabb"],
+					"center": data["map_transform"] * connector["center"],
+					"next": next_map_path, "previous": map_path })
+				var b: Basis = data["map_transform"].basis * connector["basis"]
+				data["merged_connectors"][-1]["basis"] = b.looking_at(+b.z, b.y)
 
 				# preparing recursion data for the next map
 				var new_data := data.duplicate()
