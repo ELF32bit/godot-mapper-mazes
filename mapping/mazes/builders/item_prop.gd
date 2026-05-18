@@ -28,6 +28,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if entity.brushes.size() == 0: # supporting both point and brush entities
 		scene_instance.position += Vector3.DOWN * 8.0 / map.settings.unit_size
 	else: scene_instance.position += Vector3.DOWN * entity.aabb.size.y * 0.5
+
 	scene_instance.rotation.y = ( # also adding random rotation to map props
-		map.factory.random_number_generator.randf_range(0.0, 2.0 * PI))
+		map.metadata["items_rng"].randf_range(0.0, 2.0 * PI))
+
 	return scene_instance

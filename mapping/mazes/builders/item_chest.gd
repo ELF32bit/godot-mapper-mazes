@@ -22,4 +22,5 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if entity.brushes.size() == 0: # supporting both point and brush entities
 		scene_instance.position += Vector3.DOWN * 8.0 / map.settings.unit_size
 	else: scene_instance.position += Vector3.DOWN * entity.aabb.size.y * 0.5
+
 	return scene_instance

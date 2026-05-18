@@ -1,6 +1,6 @@
 extends MapperUtilities
 
-const USE_SIMPLE_AABB := false
+const STORE_SIMPLE_MAP_AABB := false
 
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
@@ -12,7 +12,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# also storing map AABBs on the class root node
 	var class_root := map.node.get_node("func_connector")
 	if not class_root.has_meta("MAPPER_AABBS"):
-		if USE_SIMPLE_AABB:
+		if STORE_SIMPLE_MAP_AABB:
 			class_root.set_meta("MAPPER_AABBS", _get_map_aabb(map))
 		else: class_root.set_meta("MAPPER_AABBS", _get_map_aabbs(map))
 

@@ -10,6 +10,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	if map.settings.options.get("maze_unpack", false):
 		var navigation_region := create_navigation_region(map, node, true)
 		navigation_region.navigation_mesh.geometry_source_geometry_mode = 1
+
 		add_to_navigation_region(node, navigation_region)
 		for map_entity in map.classnames.get("item_chest", []):
 			add_entity_to_navigation_region(map_entity, navigation_region)
