@@ -19,5 +19,5 @@ options={
 "lightmap_unwrap": false,
 "maze_max_depth": 8,
 "maze_seed": 4,
-"maze_unpack": false
+"maze_unpack": true
 }
