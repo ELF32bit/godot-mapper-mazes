@@ -82,10 +82,10 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 
 		# generating unique AABB size signature
 		var aabb_id: Array = []
-		aabb_id.append(int(aabb.size.x * unit_size))
-		aabb_id.append(int(aabb.size.z * unit_size))
+		aabb_id.append(roundi(aabb.size.x * unit_size))
+		aabb_id.append(roundi(aabb.size.z * unit_size))
 		aabb_id.sort() # ignoring rotations in XZ plane
-		aabb_id.append(int(aabb.size.y * unit_size))
+		aabb_id.append(roundi(aabb.size.y * unit_size))
 
 		# trying to read next maps table
 		var next: Variant = null

@@ -5,7 +5,7 @@ The rooms are joined together via a minimal **`func_connector`** brush entity.<b
 Self-intersections are prevented by performing **AABB** checks of map brushes.<br>
 
 ## Explanation of the system
-**`func_connector`** entity is a simple box with an **`angle`** of entrance.<br>
+**`func_connector`** entity is a simple box with the **`angle`** of entrance.<br>
 The build system will automatically find boxes with unique sizes to join.<br>
 Joinable rooms for each connector are provided by adding **`next`** property.<br>
 Here's a value example - `{ "rooms/01-aleph": 50%, "rooms/00-BREAK": 50% }`.<br>
