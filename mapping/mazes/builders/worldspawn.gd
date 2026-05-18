@@ -5,7 +5,8 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := create_merged_brush_entity(entity, "StaticBody3D")
 	if not "rooms/" in map.source_file: return node
 
-	# example... creating unique navigation region for each room
+	# example... let's say we want locked rooms with monsters
+	# creating unique navigation region for each randomized room
 	if map.settings.options.get("maze_unpack", false):
 		var navigation_region := create_navigation_region(map, node, true)
 		navigation_region.navigation_mesh.geometry_source_geometry_mode = 1

@@ -8,7 +8,7 @@ Self-intersections are prevented by performing **AABB** checks of map brushes.<b
 **`func_connector`** entity is a simple box with an **`angle`** of entrance.<br>
 The build system will automatically find boxes with unique sizes to join.<br>
 Joinable rooms for each connector are provided by adding **`next`** property.<br>
-Here's an example table - `{ "rooms/01-aleph": 0.5, "rooms/00-BREAK": 0.5 }`.<br>
+Here's a value example - `{ "rooms/01-aleph": 50%, "rooms/00-BREAK": 50% }`.<br>
 Other room entities can specify **`maze_ignore`** property to disable **AABB** checks.<br>
 
 Maze generator supports the following options.<br>
