@@ -1,6 +1,7 @@
-# restart Godot to update this script
 const START_MAPS: PackedStringArray = [
-	"rooms/02-bet",
+	"rooms/01-aleph",
+	"rooms/13-mem",
+	"rooms/21-shin",
 ]
 
 const MIDDLE_MAPS: PackedStringArray = [

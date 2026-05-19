@@ -1,7 +1,5 @@
 extends MapperUtilities
 
-const MAZE_CONFIGURATION := preload("func_connector+.gd")
-
 @warning_ignore("unused_parameter")
 static func build(map: MapperMap) -> void:
 	if "/generate" in map.source_file:
@@ -11,6 +9,8 @@ static func build(map: MapperMap) -> void:
 static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	var parameters: Dictionary = {}
 	parameters["map_loader"] = map.loader
+	parameters["configuration"] = map.loader.load_script(
+		map.settings.game_builders_directory.path_join("func_connector+"))
 
 	var options := map.settings.options
 	parameters["maze_seed"] = options.get("maze_seed", 0)
@@ -26,11 +26,11 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 
 	var unique_scenes: Dictionary = {}
 	var dir := map.settings.game_maps_directory
-	var s1 := MAZE_CONFIGURATION.START_MAPS.size()
-	var s2 := s1 + MAZE_CONFIGURATION.MIDDLE_MAPS.size()
-	var map_paths := MAZE_CONFIGURATION.START_MAPS
-	map_paths += MAZE_CONFIGURATION.MIDDLE_MAPS
-	map_paths += MAZE_CONFIGURATION.END_MAPS
+	var s1 = parameters["configuration"].START_MAPS.size()
+	var s2 = s1 + parameters["configuration"].MIDDLE_MAPS.size()
+	var map_paths = parameters["configuration"].START_MAPS
+	map_paths += parameters["configuration"].MIDDLE_MAPS
+	map_paths += parameters["configuration"].END_MAPS
 
 	for index in range(map_paths.size()):
 		var path := dir.path_join(map_paths[index])
@@ -77,7 +77,7 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	if not has_end[0] and end_maps.size():
 		push_warning("The end map was not generated, try a different maze seed.")
 
-	if parameters["maze_unpack"]: # cleaning leftover connectors after unpacking
+	if parameters["maze_unpack"]: # clearing leftover connectors after unpacking
 		for node in map.node.find_children("func_connector", "Node3D", true, false):
 			if node.has_meta("MAPPER_MAP_AABBS"): node.free()
 	return merged_connectors
@@ -126,6 +126,7 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 
 
 static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) -> void:
+	var map_weights: Dictionary = parameters["configuration"].NEXT_MAP_WEIGHTS
 	if data["depth"] > parameters["maze_max_depth"] + 1: return
 	if data["map"] == null: return
 
@@ -183,8 +184,8 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			var next: Dictionary = connector["next"]
 			for next_map_path in next:
 				next_maps[dir.path_join(next_map_path)] = next[next_map_path]
-		elif MAZE_CONFIGURATION.NEXT_MAP_WEIGHTS.has(maps_path):
-			var next: Dictionary = MAZE_CONFIGURATION.NEXT_MAP_WEIGHTS[maps_path]
+		elif map_weights.has(maps_path):
+			var next: Dictionary = map_weights[maps_path]
 			for next_map_path in next:
 				next_maps[dir.path_join(next_map_path)] = next[next_map_path]
 		else: # creating equal priority table for all the next maps
