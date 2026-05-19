@@ -6,15 +6,15 @@ const STORE_SIMPLE_MAP_AABB := false
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := Marker3D.new()
 	apply_entity_transform(entity, node, true)
-	node.set_meta("MAPPER_NEXT", entity.get_variant_property("next", null))
+	node.set_meta("MAPPER_MAZE_NEXT", entity.get_variant_property("next", null))
 	node.set_meta("MAPPER_AABB", entity.aabb)
 
 	# also storing map AABBs on the class root node
 	var class_root := map.node.get_node("func_connector")
-	if not class_root.has_meta("MAPPER_AABBS"):
+	if not class_root.has_meta("MAPPER_MAP_AABBS"):
 		if STORE_SIMPLE_MAP_AABB:
-			class_root.set_meta("MAPPER_AABBS", _get_map_aabb(map))
-		else: class_root.set_meta("MAPPER_AABBS", _get_map_aabbs(map))
+			class_root.set_meta("MAPPER_MAP_AABBS", _get_map_aabb(map))
+		else: class_root.set_meta("MAPPER_MAP_AABBS", _get_map_aabbs(map))
 
 	return node
 

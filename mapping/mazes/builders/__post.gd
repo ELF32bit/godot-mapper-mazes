@@ -16,62 +16,72 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	parameters["maze_debug"] = map.settings.options.get("maze_debug", false)
 	parameters["map_loader"] = map.loader
 
-	# loading start maps from the configuration
-	var start_rooms: Dictionary = {}
-	for path in MAZE_CONFIGURATION.START_ROOMS:
-		path = map.settings.game_maps_directory.path_join(path)
-		var room_scene: PackedScene = null
-		if not parameters["maze_unpack"]:
-			room_scene = map.loader.load_map(path)
-		else: room_scene = map.loader.load_map_raw(path, true)
-		if room_scene: start_rooms[path] = room_scene
+	# loading all maps from the configuration
+	var start_maps: Dictionary = {}
+	var middle_maps: Dictionary = {}
+	var end_maps: Dictionary = {}
 
-	# loading all next maps from the configuration
-	var all_next_rooms: Dictionary = {}
-	for path in MAZE_CONFIGURATION.ALL_NEXT_ROOMS:
-		path = map.settings.game_maps_directory.path_join(path)
-		var room_scene: PackedScene = null
+	var unique_scenes: Dictionary = {}
+	var dir := map.settings.game_maps_directory
+	var s1 := MAZE_CONFIGURATION.START_MAPS.size()
+	var s2 := s1 + MAZE_CONFIGURATION.MIDDLE_MAPS.size()
+	var map_paths := MAZE_CONFIGURATION.START_MAPS
+	map_paths += MAZE_CONFIGURATION.MIDDLE_MAPS
+	map_paths += MAZE_CONFIGURATION.END_MAPS
+
+	for index in range(map_paths.size()):
+		var path := dir.path_join(map_paths[index])
+		var map_scene: PackedScene = null
 		if not parameters["maze_unpack"]:
-			room_scene = map.loader.load_map(path)
-		else: room_scene = map.loader.load_map_raw(path, true)
-		if room_scene: all_next_rooms[path] = room_scene
+			map_scene = map.loader.load_map(path)
+		else: map_scene = map.loader.load_map_raw(path, true)
+		if not map_scene: continue
+
+		unique_scenes[map_scene] = map_scene
+		if index < s1: start_maps[path] = map_scene
+		elif index < s2: middle_maps[path] = map_scene
+		else: end_maps[path] = map_scene
 
 	# preloading all maps and reading information
 	var aabbs: Dictionary = {}
 	var connectors: Dictionary = {}
 	var merged_connectors: Array[Dictionary] = []
-	for scene in start_rooms.values() + all_next_rooms.values():
+	for scene in unique_scenes:
 		var scene_connectors := _find_map_connectors(scene, map.settings.unit_size)
 		aabbs[scene] = scene_connectors.get("_aabbs", [])
 		connectors[scene] = scene_connectors
 		scene_connectors.erase("_aabbs")
 
+	var has_end: Array = [false]
 	var rng := RandomNumberGenerator.new()
 	rng.seed = parameters["maze_seed"]
 	_connect_maps_recursively({
 		"aabbs": [],
 		"root_node": map.node,
 		"merged_connectors": merged_connectors,
-		"map": _pick_random(start_rooms.values(), rng),
+		"map": _pick_random(start_maps.values(), rng),
 		"map_transform": Transform3D.IDENTITY,
 		"map_connector": null,
-		"maps": all_next_rooms,
-		"maps_connectors": connectors,
 		"maps_aabbs": aabbs,
+		"maps_connectors": connectors,
+		"maps": middle_maps.merged(end_maps),
+		"middle_maps": middle_maps,
+		"end_maps": end_maps,
+		"has_end": has_end,
 		"depth": 1,
 		"rng": rng,
 	}, parameters)
 
 	if parameters["maze_unpack"]: # cleaning leftover connectors after unpacking
 		for node in map.node.find_children("func_connector", "Node3D", true, false):
-			if node.has_meta("MAPPER_AABBS"): node.free()
+			if node.has_meta("MAPPER_MAP_AABBS"): node.free()
 	return merged_connectors
 
 
 static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictionary:
 	var map_instance := map.instantiate()
 	var node := map_instance.get_node_or_null("func_connector")
-	if not (node and node.has_meta("MAPPER_AABBS")):
+	if not (node and node.has_meta("MAPPER_MAP_AABBS")):
 		map_instance.free()
 		return {}
 
@@ -91,8 +101,8 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 
 		# trying to read next maps table
 		var next: Variant = null
-		if child.has_meta("MAPPER_NEXT"):
-			next = child.get_meta("MAPPER_NEXT")
+		if child.has_meta("MAPPER_MAZE_NEXT"):
+			next = child.get_meta("MAPPER_MAZE_NEXT")
 
 		# also applying AABB offset in the natural direction
 		var forward_axis: int = child.basis.z.abs().max_axis_index()
@@ -105,7 +115,7 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 		})
 
 	# obtaining map AABBs information from the class root
-	connectors["_aabbs"] = node.get_meta("MAPPER_AABBS", [])
+	connectors["_aabbs"] = node.get_meta("MAPPER_MAP_AABBS", [])
 	map_instance.free()
 	return connectors
 
@@ -127,7 +137,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 
 	# creating current map instance
 	var map_instance: Node3D = map.instantiate()
-	map_instance.set_meta("MAPPER_DEPTH", data["depth"])
+	map_instance.set_meta("MAPPER_MAZE_DEPTH", data["depth"])
 	data["root_node"].add_child(map_instance, true)
 	map_instance.transform = data["map_transform"]
 
@@ -161,27 +171,26 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			var next: Dictionary = connector["next"]
 			for next_map_path in next:
 				next_maps[dir.path_join(next_map_path)] = next[next_map_path]
-		elif MAZE_CONFIGURATION.NEXT_ROOM_WEIGHTS.has(maps_path):
-			var next: Dictionary = MAZE_CONFIGURATION.NEXT_ROOM_WEIGHTS[maps_path]
+		elif MAZE_CONFIGURATION.NEXT_MAP_WEIGHTS.has(maps_path):
+			var next: Dictionary = MAZE_CONFIGURATION.NEXT_MAP_WEIGHTS[maps_path]
 			for next_map_path in next:
 				next_maps[dir.path_join(next_map_path)] = next[next_map_path]
 		else: # creating equal priority table for all the next maps
-			for next_map_path in data["maps"]:
+			for next_map_path in data["middle_maps"]:
 				next_maps[next_map_path] = 1.0
 			next_maps["/"] = 1.0 # nothing
 
+		# using only uppercased maps at the deepest level
+		if data["depth"] == parameters["maze_max_depth"]:
+			for next_map_path in next_maps.keys():
+				var path: String = next_map_path.get_file().get_basename()
+				if path.to_upper() != path: next_maps.erase(next_map_path)
+
 		# trying to add next maps to the current connector
-		next_maps = next_maps.duplicate()
 		while next_maps.size():
 			var next_map_path: String = _pick_weighted_random(next_maps, data["rng"], true)
 			var next_map: PackedScene = data["maps"].get(next_map_path, null)
 			if not next_map: break
-
-			# using only uppercased maps at the deepest level
-			if data["depth"] == parameters["maze_max_depth"]:
-				var path := next_map_path.get_file().get_basename()
-				if path.to_upper() != path:
-					continue
 
 			# finding next map connectors and trying to align them
 			var next_map_connectors: Dictionary = data["maps_connectors"][next_map]
