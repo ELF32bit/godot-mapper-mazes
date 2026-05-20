@@ -98,11 +98,27 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 		var aabb: AABB = child.get_meta("MAPPER_AABB")
 
 		# generating unique AABB size signature
+		var forward_axis: int = child.basis.z.abs().max_axis_index()
+		var right_axis: int = child.basis.x.abs().max_axis_index()
+		var up_axis: int = child.basis.y.abs().max_axis_index()
+
+		var axes: Array = [0, 1, 2]
+		axes.erase(forward_axis)
+		if up_axis in axes:
+			axes.erase(up_axis)
+			right_axis = axes[0]
+		elif right_axis in axes:
+			axes.erase(right_axis)
+			up_axis = axes[0]
+		else:
+			right_axis = axes[1]
+			up_axis = axes[0]
+
 		var aabb_id: Array = []
-		aabb_id.append(roundi(aabb.size.x * unit_size))
-		aabb_id.append(roundi(aabb.size.z * unit_size))
-		aabb_id.sort() # ignoring rotations in XZ plane
-		aabb_id.append(roundi(aabb.size.y * unit_size))
+		aabb_id.append(roundi(aabb.size[right_axis] * unit_size))
+		aabb_id.append(roundi(aabb.size[forward_axis] * unit_size))
+		aabb_id.sort() # ignoring rotations in a local XZ plane
+		aabb_id.append(roundi(aabb.size[up_axis] * unit_size))
 
 		# trying to read next maps table
 		var next: Variant = null
@@ -110,7 +126,6 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 			next = child.get_meta("MAPPER_MAZE_NEXT")
 
 		# also applying AABB offset in the natural direction
-		var forward_axis: int = child.basis.z.abs().max_axis_index()
 		var aabb_offset := aabb.size[forward_axis] * 0.5
 		connectors.get_or_add(aabb_id, []).append({
 			"center": aabb.get_center() + child.basis.z * aabb_offset,

@@ -17,7 +17,7 @@ Maze generator supports the following options.<br>
 * **`maze_end_depth`** for the end room to at least be reached.
 * **`maze_unpack`** will unpack rooms as unique nodes.
 
-> Unpacking is designed for isolated rooms locked by doors.
+> Unpacking is designed for isolated arenas locked by doors.
 
 Global maze configuration is defined in **`func_connector+.gd`** script.<br>
 **Uppercased** naming convention is used for the maps that seal exits.<br>
