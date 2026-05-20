@@ -19,7 +19,7 @@ Maze generator supports the following options.<br>
 
 > Unpacking is designed for isolated rooms locked by doors.
 
-Global room configuration is defined in **`func_connector+.gd`** script.<br>
+Global maze configuration is defined in **`func_connector+.gd`** script.<br>
 **Uppercased** naming convention is used for the maps that seal exits.<br>
 
 ## How to create interesting rooms

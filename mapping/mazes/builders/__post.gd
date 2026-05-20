@@ -223,7 +223,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				# transforming next map coordinates to align with the connector
 				var t1 := Transform3D(connector["basis"], connector["center"])
 				var t2 := Transform3D(next_connector["basis"], next_connector["center"])
-				t2.basis = t2.basis.looking_at(+t2.basis.z, t2.basis.y)
+				t2.basis = Basis.looking_at(+t2.basis.z, t2.basis.y)
 				var transform: Transform3D = data["map_transform"] * t1 * t2.affine_inverse()
 
 				# intersecting the maze and next map AABBs
@@ -250,7 +250,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 					"center": data["map_transform"] * connector["center"],
 					"next": next_map_path, "previous": map_path })
 				var b: Basis = data["map_transform"].basis * connector["basis"]
-				data["merged_connectors"][-1]["basis"] = b.looking_at(+b.z, b.y)
+				data["merged_connectors"][-1]["basis"] = Basis.looking_at(+b.z, b.y)
 
 				# preparing recursion data for the next map
 				var new_data := data.duplicate(false)
