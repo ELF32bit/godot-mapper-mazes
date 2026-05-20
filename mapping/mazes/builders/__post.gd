@@ -15,7 +15,7 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	var options := map.settings.options
 	parameters["maze_seed"] = options.get("maze_seed", 0)
 	parameters["maze_max_depth"] = options.get("maze_max_depth", 8)
-	parameters["maze_end_depth"] = options.get("maze_end_depth", 0)
+	parameters["maze_end_depth"] = options.get("maze_end_depth", 2)
 	parameters["maze_unpack"] = options.get("maze_unpack", false)
 	parameters["maze_debug"] = options.get("maze_debug", false)
 
@@ -162,7 +162,6 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		map_instance.set_meta("MAPPER_MAZE_START", true)
 	elif data["has_end"][0] == data["map"]:
 		map_instance.set_meta("MAPPER_MAZE_END", true)
-		return
 
 	# finding active connectors
 	var active_connectors: Array[Array] = []
@@ -194,16 +193,14 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			next_maps["/"] = 1.0 # nothing
 
 		# not spawning the end map until a certain depth is reached
-		if data["depth"] < parameters["maze_end_depth"] or data["has_end"][0]:
+		if (data["depth"] + 1) < parameters["maze_end_depth"] or data["has_end"][0]:
 			for next_map_path in next_maps.keys():
 				if next_map_path in data["end_maps"]:
 					next_maps.erase(next_map_path)
 
-		# using uppercased or end maps at the deepest level
-		if data["depth"] == parameters["maze_max_depth"]:
+		# using uppercased maps to seal the deepest levels of the maze and the end map
+		if data["depth"] == parameters["maze_max_depth"] or data["has_end"][0] == data["map"]:
 			for next_map_path in next_maps.keys():
-				if not data["has_end"][0]:
-					if next_map_path in data["end_maps"]: continue
 				var path: String = next_map_path.get_file().get_basename()
 				if path.to_upper() != path: next_maps.erase(next_map_path)
 
