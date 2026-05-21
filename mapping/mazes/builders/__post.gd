@@ -38,7 +38,9 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		if not parameters["maze_unpack"]:
 			map_scene = map.loader.load_map(path)
 		else: map_scene = map.loader.load_map_raw(path, true)
-		if not map_scene: continue
+		if not map_scene:
+			push_warning("Failed to load the map at path: \"%s\"" % path)
+			continue
 
 		unique_scenes[map_scene] = map_scene
 		if index < s1: start_maps[path] = map_scene
@@ -164,10 +166,10 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 	# storing useful metadata for the current map instance
 	map_instance.set_meta("MAPPER_MAZE_DEPTH", data["depth"])
 	if data["map_connector_path"] != null:
-		map_instance.set_meta("MAPPER_MAZE_NEIGHBOURS",
+		map_instance.set_meta("MAPPER_MAZE_NEIGHBORS",
 			{ data["map_connector_path"]: 1 })
 	else:
-		map_instance.set_meta("MAPPER_MAZE_NEIGHBOURS", {})
+		map_instance.set_meta("MAPPER_MAZE_NEIGHBORS", {})
 	if data["depth"] == 1:
 		map_instance.set_meta("MAPPER_MAZE_START", true)
 	elif data["has_end"][0] == data["map"]:
@@ -227,7 +229,9 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		while next_maps.size():
 			var next_map_path: String = _pick_weighted_random(next_maps, data["rng"], true)
 			var next_map: PackedScene = data["next_maps"].get(next_map_path, null)
-			if not next_map: break
+			if not next_map:
+				push_warning("Failed to load the map at path: \"%s\"" % next_map_path)
+				continue
 
 			# finding next map connectors and trying to align them
 			var next_map_connectors: Dictionary = data["maps_connectors"][next_map]
@@ -282,8 +286,8 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				new_data["rng"].seed = data["rng"].randi()
 
 				# starting depth first recursion
-				var map_neighbours: Dictionary = map_instance.get_meta("MAPPER_MAZE_NEIGHBOURS")
-				map_neighbours[next_map_path] = map_neighbours.get(next_map_path, 0) + 1
+				var map_neighbors: Dictionary = map_instance.get_meta("MAPPER_MAZE_NEIGHBORS")
+				map_neighbors[next_map_path] = map_neighbors.get(next_map_path, 0) + 1
 				_connect_maps_recursively(new_data, parameters)
 			if has_connected:
 				break
