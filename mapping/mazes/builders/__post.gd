@@ -106,21 +106,20 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 		var up_axis: int = child.basis.y.abs().max_axis_index()
 
 		var axes: Array = [0, 1, 2]
-		axes.erase(forward_axis)
+		axes.erase(right_axis)
 		if up_axis in axes:
 			axes.erase(up_axis)
-			right_axis = axes[0]
-		elif right_axis in axes:
-			axes.erase(right_axis)
+			forward_axis = axes[0]
+		elif forward_axis in axes:
+			axes.erase(forward_axis)
 			up_axis = axes[0]
 		else:
-			right_axis = axes[1]
+			forward_axis = axes[1]
 			up_axis = axes[0]
 
 		var aabb_id: Array = []
-		aabb_id.append(roundi(aabb.size[right_axis] * unit_size))
 		aabb_id.append(roundi(aabb.size[forward_axis] * unit_size))
-		aabb_id.sort() # ignoring rotations in a local XZ plane
+		aabb_id.append(roundi(aabb.size[right_axis] * unit_size))
 		aabb_id.append(roundi(aabb.size[up_axis] * unit_size))
 
 		# trying to read next maps table
