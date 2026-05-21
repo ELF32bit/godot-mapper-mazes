@@ -64,11 +64,12 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		"merged_connectors": merged_connectors,
 		"map": _pick_random(start_maps.values(), rng),
 		"map_transform": Transform3D.IDENTITY,
+		"map_connector_path": null,
 		"map_connector": null,
 		"maps_aabbs": aabbs,
 		"maps_connectors": connectors,
-		"maps": middle_maps.merged(end_maps),
-		"middle_maps": middle_maps,
+		"maps": start_maps.merged(middle_maps.merged(end_maps)),
+		"next_maps": middle_maps.merged(end_maps),
 		"end_maps": end_maps,
 		"has_end": has_end,
 		"depth": 1,
@@ -141,15 +142,14 @@ static func _find_map_connectors(map: PackedScene, unit_size: float) -> Dictiona
 
 
 static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) -> void:
-	var map_weights: Dictionary = parameters["configuration"].NEXT_MAP_WEIGHTS
 	if data["depth"] > parameters["maze_max_depth"] + 1: return
 	if data["map"] == null: return
 
-	# finding loading paths for the current next map
-	var maps_path: Variant = null
-	var map_path: Variant = data["maps"].find_key(data["map"])
+	# finding loading paths for the current map
+	var map_weights: Dictionary = parameters["configuration"].NEXT_MAP_WEIGHTS
 	var dir: String = parameters["map_loader"].settings.game_maps_directory
-	if map_path != null: maps_path = map_path.trim_prefix(dir + "/")
+	var map_path: String = data["maps"].find_key(data["map"])
+	var maps_path := map_path.trim_prefix(dir + "/")
 
 	# unpacking current next map as unique nodes
 	var map: PackedScene = data["map"]
@@ -161,6 +161,18 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 	data["root_node"].add_child(map_instance, true)
 	map_instance.transform = data["map_transform"]
 
+	# storing useful metadata for the current map instance
+	map_instance.set_meta("MAPPER_MAZE_DEPTH", data["depth"])
+	if data["map_connector_path"] != null:
+		map_instance.set_meta("MAPPER_MAZE_NEIGHBOURS",
+			{ data["map_connector_path"]: 1 })
+	else:
+		map_instance.set_meta("MAPPER_MAZE_NEIGHBOURS", {})
+	if data["depth"] == 1:
+		map_instance.set_meta("MAPPER_MAZE_START", true)
+	elif data["has_end"][0] == data["map"]:
+		map_instance.set_meta("MAPPER_MAZE_END", true)
+
 	# adding current map AABBs to the maze
 	for aabb in data["maps_aabbs"][data["map"]]:
 		data["aabbs"].append(data["map_transform"] * aabb)
@@ -170,13 +182,6 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			mesh_instance.mesh.size = data["aabbs"][-1].size
 			mesh_instance.position = data["aabbs"][-1].get_center()
 			data["root_node"].add_child(mesh_instance, false)
-
-	# storing useful metadata for the current map instance
-	map_instance.set_meta("MAPPER_MAZE_DEPTH", data["depth"])
-	if data["depth"] == 1:
-		map_instance.set_meta("MAPPER_MAZE_START", true)
-	elif data["has_end"][0] == data["map"]:
-		map_instance.set_meta("MAPPER_MAZE_END", true)
 
 	# finding active connectors
 	var active_connectors: Array[Array] = []
@@ -203,7 +208,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			for next_map_path in next:
 				next_maps[dir.path_join(next_map_path)] = next[next_map_path]
 		else: # creating equal priority table for all the next maps
-			for next_map_path in data["maps"]:
+			for next_map_path in data["next_maps"]:
 				next_maps[next_map_path] = 1.0
 			next_maps["/"] = 1.0 # nothing
 
@@ -222,7 +227,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		# trying to add next maps to the current connector
 		while next_maps.size():
 			var next_map_path: String = _pick_weighted_random(next_maps, data["rng"], true)
-			var next_map: PackedScene = data["maps"].get(next_map_path, null)
+			var next_map: PackedScene = data["next_maps"].get(next_map_path, null)
 			if not next_map: break
 
 			# finding next map connectors and trying to align them
@@ -271,12 +276,15 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				var new_data := data.duplicate(false)
 				new_data["map"] = next_map
 				new_data["map_transform"] = transform
+				new_data["map_connector_path"] = map_path
 				new_data["map_connector"] = next_connector
 				new_data["depth"] = new_data["depth"] + 1
 				new_data["rng"] = RandomNumberGenerator.new()
 				new_data["rng"].seed = data["rng"].randi()
 
 				# starting depth first recursion
+				var map_neighbours: Dictionary = map_instance.get_meta("MAPPER_MAZE_NEIGHBOURS")
+				map_neighbours[next_map_path] = map_neighbours.get(next_map_path, 0) + 1
 				_connect_maps_recursively(new_data, parameters)
 			if has_connected:
 				break
