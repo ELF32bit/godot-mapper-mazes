@@ -210,7 +210,6 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		else: # creating equal priority table for all the next maps
 			for next_map_path in data["next_maps"]:
 				next_maps[next_map_path] = 1.0
-			next_maps["/"] = 1.0 # nothing
 
 		# not spawning the end map until a certain depth is reached
 		if (data["depth"] + 1) < parameters["maze_end_depth"] or data["has_end"][0]:
@@ -291,7 +290,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 
 
 static func _pick_weighted_random(dictionary: Dictionary, rng: RandomNumberGenerator, erase: bool = false) -> Variant:
-	if not dictionary.size(): return "/"
+	if not dictionary.size(): return null
 	var max_weight: float = 0.0
 	for weight in dictionary.values():
 		max_weight += weight
