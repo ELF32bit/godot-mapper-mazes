@@ -19,7 +19,7 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	return node
 
 
-static func _get_map_aabbs(map: MapperMap, grow_by: float = 1.0) -> Array[AABB]:
+static func _get_map_aabbs(map: MapperMap, grow_by: float = 0.25) -> Array[AABB]:
 	var aabbs: Array[AABB] = []
 	for entity in map.entities:
 		if entity.get_bool_property("maze_ignore", false):
@@ -29,12 +29,13 @@ static func _get_map_aabbs(map: MapperMap, grow_by: float = 1.0) -> Array[AABB]:
 				aabbs.append(brush.aabb)
 		if entity.brushes.size() == 0:
 			if entity.get_origin_property(null) != null:
-				var aabb := AABB(entity.center, Vector3.ZERO)
-				aabbs.append(aabb.grow(grow_by))
+				var point_aabb := AABB(entity.center, Vector3.ZERO)
+				point_aabb = point_aabb.grow(grow_by)
+				aabbs.append(point_aabb)
 	return aabbs
 
 
-static func _get_map_aabb(map: MapperMap) -> Array[AABB]:
+static func _get_map_aabb(map: MapperMap, grow_by: float = 0.25) -> Array[AABB]:
 	var aabb := AABB()
 	var aabb_is_empty := true
 	for entity in map.entities:
@@ -42,13 +43,15 @@ static func _get_map_aabb(map: MapperMap) -> Array[AABB]:
 			continue
 		if entity.brushes.size() == 0:
 			if entity.get_origin_property(null) != null:
+				var point_aabb := AABB(entity.center, Vector3.ZERO)
+				point_aabb = point_aabb.grow(grow_by)
 				if aabb_is_empty:
-					aabb = AABB(entity.center, Vector3.ZERO)
+					aabb = point_aabb
 					aabb_is_empty = false
-				else: aabb = aabb.expand(entity.center)
+				else: aabb = aabb.merge(point_aabb)
 		elif entity.aabb.has_surface():
 			if aabb_is_empty:
-				aabb = AABB(entity.aabb)
+				aabb = entity.aabb
 				aabb_is_empty = false
 			else: aabb = aabb.merge(entity.aabb)
 	if aabb_is_empty: return []
