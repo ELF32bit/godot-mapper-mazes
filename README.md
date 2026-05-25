@@ -13,7 +13,7 @@ Other room entities can specify **`maze_ignore`** property to disable **AABB** c
 
 Maze generator supports the following options.<br>
 * **`maze_seed`** is a unique layout of the maze.
-* **`maze_max_depth`** for how deep the maze can reach before ending.
+* **`maze_max_depth`** for how deep the maze can reach.
 * **`maze_end_depth`** for the end rooms to at least be reached.
 * **`maze_end_count`** is the desirable number of end rooms.
 * **`maze_unpack`** will unpack rooms as unique nodes.
