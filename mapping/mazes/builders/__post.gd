@@ -22,14 +22,18 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 
 	# loading all maps from the configuration
 	var start_maps: Dictionary = {}
+	var sealing_maps: Dictionary = {}
 	var middle_maps: Dictionary = {}
 	var end_maps: Dictionary = {}
 
 	var unique_scenes: Dictionary = {}
 	var dir := map.settings.game_maps_directory
 	var s1 = parameters["configuration"].START_MAPS.size()
-	var s2 = s1 + parameters["configuration"].MIDDLE_MAPS.size()
+	var s2 = s1 + parameters["configuration"].SEALING_MAPS.size()
+	var s3 = s2 + parameters["configuration"].MIDDLE_MAPS.size()
+
 	var map_paths = parameters["configuration"].START_MAPS
+	map_paths += parameters["configuration"].SEALING_MAPS
 	map_paths += parameters["configuration"].MIDDLE_MAPS
 	map_paths += parameters["configuration"].END_MAPS
 
@@ -45,8 +49,10 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 
 		unique_scenes[map_scene] = map_scene
 		if index < s1: start_maps[path] = map_scene
-		elif index < s2: middle_maps[path] = map_scene
+		elif s2 != s1 and index < s2: sealing_maps[path] = map_scene
+		elif s3 != s2 and index < s3: middle_maps[path] = map_scene
 		else: end_maps[path] = map_scene
+	var next_maps := sealing_maps.merged(middle_maps.merged(end_maps))
 
 	# preloading all maps and reading information
 	var aabbs: Dictionary = {}
@@ -71,8 +77,9 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		"map_is_end": false,
 		"maps_aabbs": aabbs,
 		"maps_connectors": connectors,
-		"maps": start_maps.merged(middle_maps.merged(end_maps)),
-		"next_maps": middle_maps.merged(end_maps),
+		"maps": start_maps.merged(next_maps),
+		"sealing_maps": sealing_maps,
+		"next_maps": next_maps,
 		"end_maps": end_maps,
 		"maze_ends": maze_ends,
 		"maze_aabbs": [],
@@ -222,11 +229,11 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				if next_map_path in data["end_maps"]:
 					next_maps.erase(next_map_path)
 
-		# using uppercased maps to seal the deepest levels of the maze and the end maps
+		# using sealing maps at the deepest levels of the maze and for the end maps
 		if (data["depth"] == parameters["maze_max_depth"]) or data["map_is_end"]:
 			for next_map_path in next_maps.keys():
-				var path: String = next_map_path.get_file().get_basename()
-				if path.to_upper() != path: next_maps.erase(next_map_path)
+				if not next_map_path in data["sealing_maps"]:
+					next_maps.erase(next_map_path)
 
 		# trying to add next maps to the current connector
 		while next_maps.size():

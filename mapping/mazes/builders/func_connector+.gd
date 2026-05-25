@@ -4,8 +4,11 @@ const START_MAPS: PackedStringArray = [
 	"rooms/21-shin",
 ]
 
-const MIDDLE_MAPS: PackedStringArray = [
+const SEALING_MAPS: PackedStringArray = [
 	"rooms/00-BREAK",
+]
+
+const MIDDLE_MAPS: PackedStringArray = [
 	"rooms/01-aleph",
 	"rooms/02-bet",
 	"rooms/03-gimel",
