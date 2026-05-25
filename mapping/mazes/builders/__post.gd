@@ -16,6 +16,7 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	parameters["maze_seed"] = options.get("maze_seed", 0)
 	parameters["maze_max_depth"] = options.get("maze_max_depth", 8)
 	parameters["maze_end_depth"] = options.get("maze_end_depth", 2)
+	parameters["maze_end_count"] = options.get("maze_end_count", 1)
 	parameters["maze_unpack"] = options.get("maze_unpack", false)
 	parameters["maze_debug"] = options.get("maze_debug", false)
 
@@ -57,28 +58,30 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		connectors[scene] = scene_connectors
 		scene_connectors.erase("_aabbs")
 
-	var has_end: Array = [null]
+	var maze_ends: Array = []
 	var rng := RandomNumberGenerator.new()
 	rng.seed = parameters["maze_seed"]
 	_connect_maps_recursively({
-		"aabbs": [],
 		"root_node": map.node,
 		"merged_connectors": merged_connectors,
 		"map": _pick_random(start_maps.values(), rng),
 		"map_transform": Transform3D.IDENTITY,
 		"map_connector_path": null,
 		"map_connector": null,
+		"map_is_end": false,
 		"maps_aabbs": aabbs,
 		"maps_connectors": connectors,
 		"maps": start_maps.merged(middle_maps.merged(end_maps)),
 		"next_maps": middle_maps.merged(end_maps),
 		"end_maps": end_maps,
-		"has_end": has_end,
+		"maze_ends": maze_ends,
+		"maze_aabbs": [],
 		"depth": 1,
 		"rng": rng,
 	}, parameters)
-	if not has_end[0] and end_maps.size():
-		push_warning("The end map was not generated, try a different maze seed.")
+	if end_maps.size() and maze_ends.size() < parameters["maze_end_count"]:
+		push_warning("Only %s/%s end maps were generated, try a different maze seed." %
+			[maze_ends.size(), parameters["maze_end_count"]])
 
 	if parameters["maze_unpack"]: # clearing leftover connectors after unpacking
 		for node in map.node.find_children("func_connector", "Node3D", true, false):
@@ -171,17 +174,17 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		map_instance.set_meta("MAPPER_MAZE_NEIGHBORS", {})
 	if data["depth"] == 1:
 		map_instance.set_meta("MAPPER_MAZE_START", true)
-	elif data["has_end"][0] == data["map"]:
+	elif data["map_is_end"]:
 		map_instance.set_meta("MAPPER_MAZE_END", true)
 
 	# adding current map AABBs to the maze
 	for aabb in data["maps_aabbs"][data["map"]]:
-		data["aabbs"].append(data["map_transform"] * aabb)
+		data["maze_aabbs"].append(data["map_transform"] * aabb)
 		if parameters.get("maze_debug", false): # creating debug meshes
 			var mesh_instance := MeshInstance3D.new()
 			mesh_instance.mesh = BoxMesh.new()
-			mesh_instance.mesh.size = data["aabbs"][-1].size
-			mesh_instance.position = data["aabbs"][-1].get_center()
+			mesh_instance.mesh.size = data["maze_aabbs"][-1].size
+			mesh_instance.position = data["maze_aabbs"][-1].get_center()
 			data["root_node"].add_child(mesh_instance, false)
 
 	# finding active connectors
@@ -212,14 +215,15 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			for next_map_path in data["next_maps"]:
 				next_maps[next_map_path] = 1.0
 
-		# not spawning the end map until a certain depth is reached
-		if (data["depth"] + 1) < parameters["maze_end_depth"] or data["has_end"][0]:
+		# not spawning the end maps until a certain depth is reached
+		if (data["depth"] + 1 < parameters["maze_end_depth"]) or (
+			data["maze_ends"].size() >= parameters["maze_end_count"]):
 			for next_map_path in next_maps.keys():
 				if next_map_path in data["end_maps"]:
 					next_maps.erase(next_map_path)
 
-		# using uppercased maps to seal the deepest levels of the maze and the end map
-		if data["depth"] == parameters["maze_max_depth"] or data["has_end"][0] == data["map"]:
+		# using uppercased maps to seal the deepest levels of the maze and the end maps
+		if (data["depth"] == parameters["maze_max_depth"]) or data["map_is_end"]:
 			for next_map_path in next_maps.keys():
 				var path: String = next_map_path.get_file().get_basename()
 				if path.to_upper() != path: next_maps.erase(next_map_path)
@@ -252,7 +256,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				var is_fitting := true
 				for next_map_aabb in data["maps_aabbs"][next_map]:
 					var next_aabb: AABB = transform * next_map_aabb
-					for aabb in data["aabbs"]:
+					for aabb in data["maze_aabbs"]:
 						if next_aabb.intersection(aabb).get_volume() > 0.1:
 							is_fitting = false
 							break
@@ -261,9 +265,10 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				has_connected = true
 
 				# checking if the next map is the end map
-				if not data["has_end"][0]:
-					if next_map_path in data["end_maps"]:
-						data["has_end"][0] = next_map
+				var next_map_is_end := false
+				if next_map_path in data["end_maps"]:
+					data["maze_ends"].append(next_map)
+					next_map_is_end = true
 
 				# adding current connector to the merged connectors
 				data["merged_connectors"].append({
@@ -280,6 +285,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				new_data["map_transform"] = transform
 				new_data["map_connector_path"] = map_path
 				new_data["map_connector"] = next_connector
+				new_data["map_is_end"] = next_map_is_end
 				new_data["depth"] = new_data["depth"] + 1
 				new_data["rng"] = RandomNumberGenerator.new()
 				new_data["rng"].seed = data["rng"].randi()
