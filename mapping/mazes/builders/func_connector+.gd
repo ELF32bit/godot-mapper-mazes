@@ -38,7 +38,7 @@ const MIDDLE_MAPS: PackedStringArray = [
 ]
 
 # maps that act as exits from the maze
-const END_MAPS: PackedStringArray = [
+const EXIT_MAPS: PackedStringArray = [
 	"rooms/12-lamed",
 ]
 

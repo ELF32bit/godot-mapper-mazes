@@ -17,8 +17,8 @@ wads=[]
 options={
 "items_seed": 0,
 "lightmap_unwrap": false,
-"maze_end_count": 1,
-"maze_end_depth": 2,
+"maze_exit_count": 1,
+"maze_exit_depth": 2,
 "maze_max_depth": 4,
 "maze_seed": 33,
 "maze_unpack": true

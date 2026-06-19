@@ -15,8 +15,8 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	var options := map.settings.options
 	parameters["maze_seed"] = options.get("maze_seed", 0)
 	parameters["maze_max_depth"] = options.get("maze_max_depth", 8)
-	parameters["maze_end_depth"] = options.get("maze_end_depth", 2)
-	parameters["maze_end_count"] = options.get("maze_end_count", 1)
+	parameters["maze_exit_depth"] = options.get("maze_exit_depth", 2)
+	parameters["maze_exit_count"] = options.get("maze_exit_count", 1)
 	parameters["maze_unpack"] = options.get("maze_unpack", false)
 	parameters["maze_debug"] = options.get("maze_debug", false)
 
@@ -24,7 +24,7 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	var start_maps: Dictionary = {}
 	var sealing_maps: Dictionary = {}
 	var middle_maps: Dictionary = {}
-	var end_maps: Dictionary = {}
+	var exit_maps: Dictionary = {}
 
 	var unique_scenes: Dictionary = {}
 	var dir := map.settings.game_maps_directory
@@ -35,7 +35,7 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 	var map_paths = parameters["configuration"].START_MAPS
 	map_paths += parameters["configuration"].SEALING_MAPS
 	map_paths += parameters["configuration"].MIDDLE_MAPS
-	map_paths += parameters["configuration"].END_MAPS
+	map_paths += parameters["configuration"].EXIT_MAPS
 
 	for index in range(map_paths.size()):
 		var path := dir.path_join(map_paths[index])
@@ -51,8 +51,8 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		if index < s1: start_maps[path] = map_scene
 		elif s2 != s1 and index < s2: sealing_maps[path] = map_scene
 		elif s3 != s2 and index < s3: middle_maps[path] = map_scene
-		else: end_maps[path] = map_scene
-	var next_maps := sealing_maps.merged(middle_maps.merged(end_maps))
+		else: exit_maps[path] = map_scene
+	var next_maps := sealing_maps.merged(middle_maps.merged(exit_maps))
 
 	# preloading all maps and reading information
 	var aabbs: Dictionary = {}
@@ -64,7 +64,7 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		connectors[scene] = scene_connectors
 		scene_connectors.erase("_aabbs")
 
-	var maze_ends: Array = []
+	var maze_exits: Array = []
 	var rng := RandomNumberGenerator.new()
 	rng.seed = parameters["maze_seed"]
 	_connect_maps_recursively({
@@ -74,21 +74,21 @@ static func _generate_maze(map: MapperMap) -> Array[Dictionary]:
 		"map_transform": Transform3D.IDENTITY,
 		"map_connector_path": null,
 		"map_connector": null,
-		"map_is_end": false,
+		"map_is_exit": false,
 		"maps_aabbs": aabbs,
 		"maps_connectors": connectors,
 		"maps": start_maps.merged(next_maps),
 		"sealing_maps": sealing_maps,
 		"next_maps": next_maps,
-		"end_maps": end_maps,
-		"maze_ends": maze_ends,
+		"exit_maps": exit_maps,
+		"maze_exits": maze_exits,
 		"maze_aabbs": [],
 		"depth": 1,
 		"rng": rng,
 	}, parameters)
-	if end_maps.size() and maze_ends.size() < parameters["maze_end_count"]:
-		push_warning("Only %s/%s end maps were generated, try a different maze seed." %
-			[maze_ends.size(), parameters["maze_end_count"]])
+	if exit_maps.size() and maze_exits.size() < parameters["maze_exit_count"]:
+		push_warning("Only %s/%s exit maps were generated, try a different maze seed." %
+			[maze_exits.size(), parameters["maze_exit_count"]])
 
 	if parameters["maze_unpack"]: # clearing leftover connectors after unpacking
 		for node in map.node.find_children("func_connector", "Node3D", true, false):
@@ -181,8 +181,8 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 		map_instance.set_meta("MAPPER_MAZE_NEIGHBORS", {})
 	if data["depth"] == 1:
 		map_instance.set_meta("MAPPER_MAZE_START", true)
-	elif data["map_is_end"]:
-		map_instance.set_meta("MAPPER_MAZE_END", true)
+	elif data["map_is_exit"]:
+		map_instance.set_meta("MAPPER_MAZE_EXIT", true)
 
 	# adding current map AABBs to the maze
 	for aabb in data["maps_aabbs"][data["map"]]:
@@ -222,15 +222,15 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 			for next_map_path in data["next_maps"]:
 				next_maps[next_map_path] = 1.0
 
-		# not spawning the end maps until a certain depth is reached
-		if (data["depth"] + 1 < parameters["maze_end_depth"]) or (
-			data["maze_ends"].size() >= parameters["maze_end_count"]):
+		# not spawning the exit maps until a certain depth is reached
+		if (data["depth"] + 1 < parameters["maze_exit_depth"]) or (
+			data["maze_exits"].size() >= parameters["maze_exit_count"]):
 			for next_map_path in next_maps.keys():
-				if next_map_path in data["end_maps"]:
+				if next_map_path in data["exit_maps"]:
 					next_maps.erase(next_map_path)
 
-		# using sealing maps at the deepest levels of the maze and for the end maps
-		if (data["depth"] == parameters["maze_max_depth"]) or data["map_is_end"]:
+		# using sealing maps at the deepest levels of the maze and for the exit maps
+		if (data["depth"] == parameters["maze_max_depth"]) or data["map_is_exit"]:
 			for next_map_path in next_maps.keys():
 				if not next_map_path in data["sealing_maps"]:
 					next_maps.erase(next_map_path)
@@ -271,11 +271,11 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				if not is_fitting: continue
 				has_connected = true
 
-				# checking if the next map is the end map
-				var next_map_is_end := false
-				if next_map_path in data["end_maps"]:
-					data["maze_ends"].append(next_map)
-					next_map_is_end = true
+				# checking if the next map is the exit map
+				var next_map_is_exit := false
+				if next_map_path in data["exit_maps"]:
+					data["maze_exits"].append(next_map)
+					next_map_is_exit = true
 
 				# adding current connector to the merged connectors
 				data["merged_connectors"].append({
@@ -292,7 +292,7 @@ static func _connect_maps_recursively(data: Dictionary, parameters: Dictionary) 
 				new_data["map_transform"] = transform
 				new_data["map_connector_path"] = map_path
 				new_data["map_connector"] = next_connector
-				new_data["map_is_end"] = next_map_is_end
+				new_data["map_is_exit"] = next_map_is_exit
 				new_data["depth"] = new_data["depth"] + 1
 				new_data["rng"] = RandomNumberGenerator.new()
 				new_data["rng"].seed = data["rng"].randi()
