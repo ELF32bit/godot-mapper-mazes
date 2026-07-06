@@ -16,5 +16,6 @@ game=2
 wads=[]
 options={
 "items_seed": 0,
+"maze_ignore": true,
 "print_progress": false
 }

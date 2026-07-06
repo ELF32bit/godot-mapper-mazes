@@ -12,7 +12,9 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	# also storing map AABBs on the class root node
 	var class_root := map.node.get_node("func_connector")
 	if not class_root.has_meta("MAPPER_MAP_AABBS"):
-		if STORE_SIMPLE_MAP_AABB:
+		if map.settings.options.get("maze_ignore", false):
+			class_root.set_meta("MAPPER_MAP_AABBS", [])
+		elif STORE_SIMPLE_MAP_AABB:
 			class_root.set_meta("MAPPER_MAP_AABBS", _get_map_aabb(map))
 		else: class_root.set_meta("MAPPER_MAP_AABBS", _get_map_aabbs(map))
 
