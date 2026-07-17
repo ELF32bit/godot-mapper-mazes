@@ -1,5 +1,7 @@
 extends MapperUtilities
 
+# Reduces entire map to a single bounding volume
+# BVH is not exposed, so using inefficient N^2 checks
 const STORE_SIMPLE_MAP_AABB := false
 
 @warning_ignore("unused_parameter")
