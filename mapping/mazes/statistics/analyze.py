@@ -4,7 +4,7 @@ text_file = open("torah.txt", "r", encoding="utf-8")
 text = text_file.read()
 
 letters_table = {
-    ".": "00-BREAK",
+	".": "00-BREAK",
 	"א": "01-aleph",
 	"ב": "02-bet",
 	"ג": "03-gimel",

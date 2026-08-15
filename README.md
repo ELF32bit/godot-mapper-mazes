@@ -28,4 +28,4 @@ Getting procedural generation right is very difficult without a direction.<br>
 22 example rooms are based on the letters of **Phoenician/Hebrew** alphabet.<br>
 Languages provide memorable shapes for the rooms as well as how they naturally join.<br>
 Moreover, the letters can be further classified to give a special meaning to each room.<br>
-There are 3 mother letters, 7 doubles and 12 simples according to Sefer Yetzirah.<br>
+There are 3 mother letters, 7 doubles and 12 simples according to [Sefer Yetzirah](https://en.wikisource.org/wiki/Sepher_Yetzirah/Sepher_Yetzirah).<br>
