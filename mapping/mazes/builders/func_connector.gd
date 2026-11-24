@@ -8,6 +8,8 @@ const STORE_SIMPLE_MAP_AABB := false
 static func build(map: MapperMap, entity: MapperEntity) -> Node:
 	var node := Marker3D.new()
 	apply_entity_transform(entity, node, true)
+
+	enable_single_quoted_properties(entity)
 	node.set_meta("MAPPER_MAZE_NEXT", entity.get_variant_property("next", null))
 	node.set_meta("MAPPER_AABB", entity.aabb)
 
@@ -21,6 +23,12 @@ static func build(map: MapperMap, entity: MapperEntity) -> Node:
 		else: class_root.set_meta("MAPPER_MAP_AABBS", _get_map_aabbs(map))
 
 	return node
+
+
+static func enable_single_quoted_properties(entity: MapperEntity) -> void:
+	for property in entity.properties:
+		var value: String = entity.properties[property]
+		entity.properties[property] = value.replace("'", '"')
 
 
 static func _get_map_aabbs(map: MapperMap, grow_by: float = 0.25) -> Array[AABB]:
